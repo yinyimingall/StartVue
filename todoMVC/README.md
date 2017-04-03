@@ -2,6 +2,7 @@
 
 > A Vue.js Demo.
 
+请看Demo
 [Online Demo](https://yinyimingall.github.io/StartVue/todoMVC/)
 
 ## Build Setup
