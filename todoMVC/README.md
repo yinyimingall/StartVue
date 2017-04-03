@@ -1,8 +1,7 @@
 # todo
 
 > A Vue.js Demo.
-
-请看Demo
+请看
 [Online Demo](https://yinyimingall.github.io/StartVue/todoMVC/)
 
 ## Build Setup
