@@ -1,6 +1,8 @@
 # todo
 
 > A Vue.js Demo.
+
+关注组件通信
 请看
 [Online Demo](https://yinyimingall.github.io/StartVue/todoMVC/)
 
