@@ -1,55 +1,57 @@
 <template lang="html">
   <div id="home">
-    <div class="city">
-      <span>坐标：{{ city }}</span>
-    </div>
-    <div class="releasing">
-      <div class="title">
-        <span>on showing</span>
-        <router-link :to="{ name: 'moreMovies', query: { type: 'value'}}">
-          <div class="more">
-            <span>more</span><i class="arrow"></i>
-          </div>
-        </router-link>
+    <div v-if="!isLoading">
+      <div class="city">
+        <span>坐标：{{ city }}</span>
       </div>
-      <div class="list-main">
-        <ul>
-          <li v-for="elem in inTheaters.subjects" class="list-item">
-            <router-link :to="{ name: 'moreMovies', params: { property: 'value'}}">
-              <div class="item-content">
-                <img :src="elem.images.medium" class="item-img" alt="movie poster">
-                <p class="item-name">{{ elem.title }}</p>
-                <p class="item-rating">
-                  <span class="rating-star" :style="elem.stars" v-if="elem.rating.average != 0"></span>
-                  <span>{{ elem.rating.average==0 ? '暂无评分' : elem.rating.average }}</span>
-                </p>
-              </div>
-            </router-link>
-          </li>
-        </ul>
+      <div class="releasing">
+        <div class="title">
+          <span>正在上映</span>
+          <router-link :to="{ name: 'moreMovies', query: { type: 'in_theaters'}}">
+            <div class="more">
+              <span>更多</span><i class="arrow"></i>
+            </div>
+          </router-link>
+        </div>
+        <div class="list-main">
+          <ul>
+            <li v-for="elem in inTheaters.subjects" class="list-item">
+              <router-link :to="{ name: 'movieDetail', params: { id: elem.id}}">
+                <div class="item-content">
+                  <img :src="elem.images.medium" class="item-img" alt="movie poster">
+                  <p class="item-name">{{ elem.title }}</p>
+                  <p class="item-rating">
+                    <span class="rating-star" :style="elem.stars" v-if="elem.rating.average != 0"></span>
+                    <span>{{ elem.rating.average==0 ? '暂无评分' : elem.rating.average }}</span>
+                  </p>
+                </div>
+              </router-link>
+            </li>
+          </ul>
+        </div>
       </div>
-    </div>
-    <div class="coming-soon">
-      <div class="title">
-        <span>coming soon</span>
-        <router-link :to="{ name: 'moreMovies', params: { property: 'value'}}">
-          <div class="more">
-            <span>more</span><i class="arrow"></i>
-          </div>
-        </router-link>
-      </div>
-      <div class="list-main">
-        <ul>
-          <li v-for="elem in comingSoon.subjects" class="list-item">
-            <router-link :to="{ name: 'moreMovies', params: { property: 'value'}}">
-              <div class="item-content">
-                <img :src="elem.images.medium" class="item-img" alt="movie poster">
-                <p>{{ elem.title }}</p>
-                <p>{{ elem.collect_count }}人想看</p>
-              </div>
-            </router-link>
-          </li>
-        </ul>
+      <div class="coming-soon">
+        <div class="title">
+          <span>即将上映</span>
+          <router-link :to="{ name: 'moreMovies', query: { type: 'coming_soon'}}">
+            <div class="more">
+              <span>更多</span><i class="arrow"></i>
+            </div>
+          </router-link>
+        </div>
+        <div class="list-main">
+          <ul>
+            <li v-for="elem in comingSoon.subjects" class="list-item">
+              <router-link :to="{ name: 'movieDetail', params: { id: elem.id}}">
+                <div class="item-content">
+                  <img :src="elem.images.medium" class="item-img" alt="movie poster">
+                  <p>{{ elem.title }}</p>
+                  <p>{{ elem.collect_count }}人想看</p>
+                </div>
+              </router-link>
+            </li>
+          </ul>
+        </div>
       </div>
     </div>
     <loading v-show="isLoading"></loading>
@@ -63,10 +65,10 @@ import loading from '../components/loading.vue'
 export default {
   data () {
     return{
-      isLoading: false,
+      isLoading: true,
       inTheaters: {
         url: 'douban/movie/in_theaters',
-        title: 'where city ?',
+        title: '',
         type: '',
         subjects: []
       },
@@ -79,10 +81,14 @@ export default {
     }
   },
   mounted () {
+    console.log('主页。。。mouted')
     this.isLoading = true;
     this.fetchShowing();
     this.fetchComingSoon();
     this.isLoading = false;
+  },
+  created () {
+    console.log('home...created')
   },
   methods: {
     fetchShowing () {
@@ -93,10 +99,7 @@ export default {
         count: 9
       }
       fetch(url, sendData).then( res => {
-        let subjects = this.inTheaters.subjects = res.data.subjects.slice();
-        // for (let i = 0; i < subjects.length; i++) {
-        //   this.$set(subjects[i], 'stars', { 'background-position-y':  Number(subjects[i].rating.stars - 50) * 2.2 + 'px'})
-        // }
+        let subjects = this.inTheaters.subjects = res.data.subjects.slice()
         subjects.forEach( val => {
           this.$set(val, 'stars', { 'background-position-y':  Number(val.rating.stars - 50) * 2.2 + 'px'})
         })
@@ -178,12 +181,4 @@ export default {
   width: 0.93rem;
   height: 1.29rem;
 }
-.rating-star{
-    display: inline-block;
-    width: 55px;
-    height: 11px;
-    background: url('https://img3.doubanio.com/f/shire/0147ca9efddcac80050854590d26bee587b008df/pics/rating_icons/ic_rating_s@2x.png') no-repeat;
-    background-size: cover;
-    background-position-x: 0;
-  }
 </style>

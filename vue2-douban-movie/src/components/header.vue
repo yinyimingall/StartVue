@@ -1,8 +1,8 @@
 <template lang="html">
   <div id="header">
     <div class="search">
-      <span>douban</span>
-      <input @keyup.enter="search" v-model="queryKey" type="text" placeholder="film you like">
+      <span>豆瓣</span>
+      <input @keyup.enter="search" v-model="queryKey" type="text" placeholder="search movie">
     </div>
     <ul class="lists">
       <li v-for="(elem, index) in tabPages" class="nav-list" @click="selected(elem, index)" :class="{ active: elem.isActive}">
@@ -19,9 +19,9 @@ export default {
     return {
       queryKey: '',
       tabPages: [
-        { title: 'Movies', path: 'home', isActive: true},
-        { title: 'Other 1', path: 'other1', isActive: false},
-        { title: 'Other 2', path: 'other2', isActive: false}
+        { title: '电影', path: '/', isActive: true},
+        { title: '读书', path: '/other1', isActive: false},
+        { title: '关于', path: '/other2', isActive: false}
       ]
     }
   },
@@ -32,12 +32,35 @@ export default {
       })
       this.tabPages[index].isActive = true;
       // this.$set(elem, 'isActive', true)
+    },
+    search () {
+      
     }
   }
 }
 </script>
 
 <style lang="css">
+.search {
+  height: 0.4rem;
+}
+.search span {
+  font-size: 0.2rem;
+  font-weight: 600;
+  line-height: 0.4rem;
+  padding-left: 0.2rem;
+}
+.search input {
+  width: 1.8rem;
+  height: 0.24rem;
+  position: absolute;
+  top: 0.08rem;
+  right: 0.3rem;
+  border-radius: 20px;
+  padding-left: 12px;
+  border: none;
+  background-color: rgb(242, 242, 242);
+}
 .nav-list {
   display: inline-block;
   line-height: 0.4rem;

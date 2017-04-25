@@ -6,6 +6,7 @@ import Home from '../pages/home.vue'
 import OtherOne from '../pages/other-one.vue'
 import OtherTwo from '../pages/other-two.vue'
 import moreMovies from '../components/moreMovies.vue'
+import movieDetail from '../components/movieDetail.vue'
 Vue.use(Router)
 
 export default new Router({
@@ -15,14 +16,14 @@ export default new Router({
       component: Home
     },
     {
-      path: '/home',
-      name: 'home',
-      component: Home
-    },
-    {
-      path: '/home/moreMovies',
+      path: '/moreMovies',
       name: 'moreMovies',
       component: moreMovies
+    },
+    {
+      path: '/movieDetail/:id',
+      name: 'movieDetail',
+      component: movieDetail
     },
     {
       path: '/other1',
