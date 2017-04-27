@@ -7,6 +7,7 @@ import OtherOne from '../pages/other-one.vue'
 import OtherTwo from '../pages/other-two.vue'
 import moreMovies from '../components/moreMovies.vue'
 import movieDetail from '../components/movieDetail.vue'
+import searchList from '../components/searchList.vue'
 Vue.use(Router)
 
 export default new Router({
@@ -24,6 +25,11 @@ export default new Router({
       path: '/movieDetail/:id',
       name: 'movieDetail',
       component: movieDetail
+    },
+    {
+      path: '/movieSearch',
+      name: 'movieSearch',
+      component: searchList
     },
     {
       path: '/other1',

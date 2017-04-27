@@ -11,8 +11,9 @@ export default {
 
 <style lang="css">
 #loading {
-  font-size: 0.3rem;
+  font-size: 0.16rem;
   color: #008652;
+  padding-top: 1rem;
   text-align: center;
 }
 </style>

@@ -1,6 +1,6 @@
 <template lang="html">
   <div id="home">
-    <div v-if="!isLoading">
+    <div v-show="!isLoading">
       <div class="city">
         <span>坐标：{{ city }}</span>
       </div>
@@ -84,8 +84,6 @@ export default {
     console.log('主页。。。mouted')
     this.isLoading = true;
     this.fetchShowing();
-    this.fetchComingSoon();
-    this.isLoading = false;
   },
   created () {
     console.log('home...created')
@@ -105,6 +103,7 @@ export default {
         })
         this.inTheaters.title = res.data.title;
         console.log(res.data)
+        this.fetchComingSoon()
       })
     },
     fetchComingSoon () {
@@ -117,6 +116,7 @@ export default {
       fetch(url, sendData).then( res => {
         this.comingSoon.subjects = res.data.subjects.slice();
         this.comingSoon.title = res.data.title;
+        this.isLoading = false
       })
     }
   },

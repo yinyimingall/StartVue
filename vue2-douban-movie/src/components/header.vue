@@ -34,7 +34,8 @@ export default {
       // this.$set(elem, 'isActive', true)
     },
     search () {
-      
+      this.$router.push({ path: '/movieSearch/', query: { 'queryKey': this.queryKey }})
+      this.queryKey = ''
     }
   }
 }

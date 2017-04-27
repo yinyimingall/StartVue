@@ -1,7 +1,6 @@
 <template lang="html">
   <div id="detail">
     <img :src="detail.images.large" alt="what">
-
     <footer>
       <h1>{{ detail.title }}</h1>
       <p>上映时间：{{ detail.year }}</p>
@@ -34,7 +33,7 @@ export default {
       let url = '/douban/movie/subject/' + this.$route.params.id;
       fetch(url).then( res => {
         console.log(res)
-        this.detail = res.data
+        this.detail = JSON.parse(JSON.stringify(res.data))
         this.$set(this.detail, 'stars', { 'background-position-y':  Number(this.detail.rating.stars - 50) * 2.2 + 'px'})
       })
     }

@@ -1,10 +1,11 @@
 <template lang="html">
-  <div id="moreMovies">
-    <div class="m-title">
-      <h1>{{ movieList.title }}</h1>
+  <div id="search">
+    <div class="s-title">
+      <h1>{{ searchList.title }}</h1>
+      <p>共{{ searchList.total }}个电影</p>
     </div>
     <ul>
-      <li v-for="elem in movieList.subjects" class="movie-item">
+      <li v-for="elem in searchList.subjects" class="movie-item">
         <router-link :to="{ name: 'movieDetail', params: { id: elem.id}}">
           <img :src="elem.images.small" alt="">
           <p>{{ elem.title }}</p>
@@ -37,8 +38,8 @@ import { fetch } from '../fetch/api.js'
 export default {
   data () {
     return {
-      type: '123',
-      movieList: {
+      queryKey: '123',
+      searchList: {
         title: '',
         total: '',
         subjects: []
@@ -47,23 +48,17 @@ export default {
     }
   },
   created () {
-    this.type = this.$route.query.type;
-    this.loadMore()
-  },
-  watch: {
-    // '$route': 'loadMore'
+    this.queryKey = this.$route.query.queryKey
+    this.load()
   },
   methods: {
-    loadMore () {
-      let url = `/douban/movie/${this.type}`
-      let sendData = {
-        city: '杭州',
-        start: 0
-      }
-      fetch(url, sendData).then(res => {
-        this.movieList.title = res.data.title;
-        this.movieList.total = res.data.total;
-        let subjects = this.movieList.subjects = [...res.data.subjects];//这里...展开符相当与返回一个新数组而非原本引用
+    load () {
+      let url = `douban/movie/search?q=${this.queryKey}`
+      fetch(url, { params: { start: 0 }}).then( res => {
+        console.log(res.data)
+        this.searchList.title = res.data.title;
+        this.searchList.total = res.data.total;
+        let subjects = this.searchList.subjects = [...res.data.subjects]
         subjects.forEach( val => {
           this.$set(val, 'stars', { 'background-position-y':  Number(val.rating.stars - 50) * 2.2 + 'px'})
         })
@@ -78,10 +73,8 @@ export default {
 </script>
 
 <style lang="css">
-.m-title h1 {
-  line-height: 0.18rem;
-  padding: 0.1rem;
-  border-bottom: 2px solid rgba(3, 93, 58, 0.1);
+.s-title {
+  padding: 0.16rem 0.16rem 0;
 }
 .movie-item {
   position: relative;
